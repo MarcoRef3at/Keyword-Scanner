@@ -1,0 +1,29 @@
+1- Head to Lambda Functions
+Functions - Lambda (amazon.com)
+2- Click Create Function
+    a. Mark "Author From scratch"
+    b. Fill "Function name"
+    c. Runtime = Node.js 14.x
+    d. Architecture = x86_64
+    e. Click on Create function
+3- Upload the zip file from "Upload from"
+4- Search for "API Gateway"
+    API Gateway (amazon.com)
+5- Click on "Create API"
+6- Click build on "REST API" NOT "REST API Private" !!
+7- Configure the API
+    a. REST
+    b. New API
+    c. Fill the "API Name"
+    d. Click Create API
+8- Click on "Actions" >> "Create Method >> POST
+9- Leave everything as it is
+    a. Mark on "Use Lambda Proxy integration"
+    b. Add the function name provided before in the lambda function field
+    c. Change default timeout to be 29000 !!!
+    d. Save >> Ok
+    e. Click on Post method then open "Integration Request"
+    f. Check again for the timeout, if you found it Marked on Use Default timeout, unmark it and change it to be 28000 !!
+10- Click on "Actions" >> "Deploy API" >> fill the required >> "Deploy"
+11- Finally you'll find the link "Invoke URL" which you can use through postman
+	
