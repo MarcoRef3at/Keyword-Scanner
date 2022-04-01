@@ -1,8 +1,21 @@
 const whoiser = require("whoiser");
 const sslChecker = require("ssl-checker");
+const ipInfo = require("ip-info-finder");
+const { convertIso2Code } = require("convert-country-codes");
 
 module.exports = domainInfo = async url => {
+  var serverAddress = "";
   try {
+    ipInfo
+      .getIPInfo(url)
+      .then(data => {
+        // console.log("data:", data);
+        serverAddress = data.city
+          ? `${data.city}, ${convertIso2Code(data.countryCode).iso3}`
+          : "";
+      })
+      .catch(err => console.log(err));
+
     const domainWhois = await whoiser(url);
     // console.log("domainWhois:", domainWhois);
     var City = "";
@@ -24,6 +37,7 @@ module.exports = domainInfo = async url => {
         }
         if (ky.includes("Country")) {
           Country = Country == "" ? `${val}` : Country;
+          Country = Country != "" && convertIso2Code(Country).iso3;
         }
         if (ky.includes("Created Date")) {
           createdAt = createdAt == "" ? `${val}` : createdAt;
@@ -47,6 +61,7 @@ module.exports = domainInfo = async url => {
       expiresAt: expiresAt,
       whoIsID: whoIsID,
       location: City + State + Country,
+      serverAddress,
       httpsValidation: https.valid
     };
 

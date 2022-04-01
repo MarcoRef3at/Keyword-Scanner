@@ -1,4 +1,5 @@
 const asyncHandler = require("../middleware/async");
+const cleanUrl = require("../utils/cleanUrl");
 const domainInfo = require("../utils/domainInfo");
 const ErrorResponse = require("../utils/errorResponse");
 const wordSearch = require("../utils/wordSearch");
@@ -34,23 +35,34 @@ exports.getAll = asyncHandler(async (req, res, next) => {
     let privacyPolicy = await wordSearch(url, ["Privacy", "Policy"]);
     let shoppingCart = await wordSearch(url, ["Shopping Cart"]);
 
-    res.status(200).json({
+    let isInvalidDomain = Object.values(domain).every(
+      x => x === null || x === ""
+    );
+    let isInvalidBingSearch =
+      positiveKeywords.length == 0 && negativeKeywords.length == 0;
+
+    let response = {
       domain,
       contactUs: contactUs.length > 0,
       privacyPolicy: privacyPolicy.length > 0,
       shoppingCart: shoppingCart.length > 0,
       positiveKeywords,
       negativeKeywords
-    });
+    };
+
+    if (isInvalidBingSearch || isInvalidDomain) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: "INVALID_DOMAIN",
+          message: "Unable to find domain data"
+        }
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        data: response
+      });
+    }
   }
 });
-
-const cleanUrl = url => {
-  url = url.replace(/\s/g, "");
-  url = url.split("http://").pop();
-  url = url.split("https://").pop();
-  url = url.split("www.").pop();
-  url = url.split("http://www.").pop();
-  url = url.split("https://www.").pop();
-  return url;
-};
