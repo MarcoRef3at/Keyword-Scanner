@@ -1,8 +1,8 @@
 const asyncHandler = require("../middleware/async");
-const cleanUrl = require("../utils/cleanUrl");
 const domainInfo = require("../utils/domainInfo");
-const ErrorResponse = require("../utils/errorResponse");
 const wordSearch = require("../utils/wordSearch");
+const cleanUrl = require("../utils/cleanUrl");
+const ErrorResponse = require("../utils/errorResponse");
 
 // @des         Get All data
 // @route       POST /endpoint

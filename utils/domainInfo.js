@@ -15,8 +15,12 @@ module.exports = domainInfo = async url => {
           : "";
       })
       .catch(err => console.log(err));
-
-    const domainWhois = await whoiser(url);
+    try {
+      var domainWhois = await whoiser(url);
+      // console.log("domainWhois:", domainWhois);
+    } catch (error) {
+      console.log("errrrror:", error);
+    }
     // console.log("domainWhois:", domainWhois);
     var City = "";
     var State = "";
@@ -37,7 +41,10 @@ module.exports = domainInfo = async url => {
         }
         if (ky.includes("Country")) {
           Country = Country == "" ? `${val}` : Country;
-          Country = Country != "" && convertIso2Code(Country).iso3;
+          Country =
+            Country != "" &&
+            Country.length < 3 &&
+            convertIso2Code(Country).iso3;
         }
         if (ky.includes("Created Date")) {
           createdAt = createdAt == "" ? `${val}` : createdAt;
@@ -68,6 +75,6 @@ module.exports = domainInfo = async url => {
     return domain;
   } catch (error) {
     console.log("error:", error);
-    return "Unable to find domain data";
+    return [];
   }
 };

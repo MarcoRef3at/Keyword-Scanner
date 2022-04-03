@@ -1,5 +1,5 @@
 const axios = require("axios");
-const SUBSCRIPTION_KEY = process.env["AZURE_SUBSCRIPTION_KEY"];
+const SUBSCRIPTION_KEY = "f9a81dda603b4cab97e7641ae0231f71";
 
 module.exports = axios.create({
   baseURL: "https://api.bing.microsoft.com/v7.0/search?",

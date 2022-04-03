@@ -38,7 +38,13 @@ exports.handler = asyncHandler(async event => {
     let contactUs = await wordSearch(url, ["Contact Us"]);
     let privacyPolicy = await wordSearch(url, ["Privacy", "Policy"]);
     let shoppingCart = await wordSearch(url, ["Shopping Cart"]);
-    console.log("111111111111111111", contactUs);
+
+    let isInvalidDomain = Object.values(domain).every(
+      x => x === null || x === ""
+    );
+    let isInvalidBingSearch =
+      positiveKeywords.length == 0 && negativeKeywords.length == 0;
+
     const responseBody = {
       domain,
       contactUs: contactUs.length > 0,
@@ -47,10 +53,25 @@ exports.handler = asyncHandler(async event => {
       positiveKeywords,
       negativeKeywords
     };
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify(responseBody)
-    };
+    if (isInvalidBingSearch || isInvalidDomain) {
+      let errorResponse = {
+        success: false,
+        error: {
+          code: "INVALID_DOMAIN",
+          message: "Unable to find domain data"
+        }
+      };
+      var response = {
+        statusCode: 400,
+        body: JSON.stringify(errorResponse)
+      };
+    } else {
+      var response = {
+        statusCode: 200,
+        body: JSON.stringify(responseBody)
+      };
+    }
+
     return response;
   }
 });

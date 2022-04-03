@@ -1,9 +1,26 @@
 const whoiser = require("whoiser");
 const sslChecker = require("ssl-checker");
+const ipInfo = require("ip-info-finder");
+const { convertIso2Code } = require("convert-country-codes");
 
 module.exports = domainInfo = async url => {
+  var serverAddress = "";
   try {
-    const domainWhois = await whoiser(url);
+    ipInfo
+      .getIPInfo(url)
+      .then(data => {
+        // console.log("data:", data);
+        serverAddress = data.city
+          ? `${data.city}, ${convertIso2Code(data.countryCode).iso3}`
+          : "";
+      })
+      .catch(err => console.log(err));
+    try {
+      var domainWhois = await whoiser(url);
+      // console.log("domainWhois:", domainWhois);
+    } catch (error) {
+      console.log("errrrror:", error);
+    }
     // console.log("domainWhois:", domainWhois);
     var City = "";
     var State = "";
@@ -24,6 +41,10 @@ module.exports = domainInfo = async url => {
         }
         if (ky.includes("Country")) {
           Country = Country == "" ? `${val}` : Country;
+          Country =
+            Country != "" &&
+            Country.length < 3 &&
+            convertIso2Code(Country).iso3;
         }
         if (ky.includes("Created Date")) {
           createdAt = createdAt == "" ? `${val}` : createdAt;
@@ -47,12 +68,13 @@ module.exports = domainInfo = async url => {
       expiresAt: expiresAt,
       whoIsID: whoIsID,
       location: City + State + Country,
+      serverAddress,
       httpsValidation: https.valid
     };
 
     return domain;
   } catch (error) {
     console.log("error:", error);
-    return "Unable to find domain data";
+    return [];
   }
 };
