@@ -5,6 +5,7 @@ const { convertIso2Code } = require("convert-country-codes");
 
 module.exports = domainInfo = async url => {
   var serverAddress = "";
+  var serverAddressISO = "";
   try {
     ipInfo
       .getIPInfo(url)
@@ -13,8 +14,11 @@ module.exports = domainInfo = async url => {
         serverAddress = data.city
           ? `${data.city}, ${convertIso2Code(data.countryCode).iso3}`
           : "";
+        serverAddressISO = data.countryCode
+          ? convertIso2Code(data.countryCode).iso3
+          : "";
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log("serverAddress Error", err));
     try {
       var domainWhois = await whoiser(url);
       // console.log("domainWhois:", domainWhois);
@@ -68,7 +72,9 @@ module.exports = domainInfo = async url => {
       expiresAt: expiresAt,
       whoIsID: whoIsID,
       location: City + State + Country,
+      locationISO: Country,
       serverAddress,
+      serverAddressISO,
       httpsValidation: https.valid
     };
 

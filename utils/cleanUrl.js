@@ -1,3 +1,5 @@
+let psl = require("psl");
+
 module.exports = cleanUrl = url => {
   url = url.replace(/\s/g, "");
   url = url.split("http://").pop();
@@ -5,5 +7,5 @@ module.exports = cleanUrl = url => {
   url = url.split("www.").pop();
   url = url.split("http://www.").pop();
   url = url.split("https://www.").pop();
-  return url;
+  return psl.get(url);
 };

@@ -17,6 +17,7 @@
     "express": "^4.17.3",
     "ip-info-finder": "^1.2.3",
     "morgan": "^1.10.0",
+    "psl": "^1.8.0",
     "ssl-checker": "^2.0.7",
     "whoiser": "^1.13.1"
   },
