@@ -8,9 +8,17 @@ module.exports = domainInfo = async url => {
   const ipInitialised = ipdetails.initialise({ip: url} );
   try {
     const result = await ipInitialised.allInformation()
-    console.log(result);
+    // console.log(result);
     var serverAddress = `${result.countryName}, ${result.countryCode}`;
     var serverAddressISO = result.countryCode;
+    
+    serverAddress = result.city
+          ? `${result.city}, ${convertIso2Code(result.countryCode).iso3}`
+          : "";
+    
+    serverAddressISO = result.countryCode
+          ? convertIso2Code(result.countryCode).iso3
+          : "";
     try {
       var domainWhois = await whoiser(url);
       // console.log("domainWhois:", domainWhois);
