@@ -7,5 +7,6 @@ module.exports = cleanUrl = url => {
   url = url.split("www.").pop();
   url = url.split("http://www.").pop();
   url = url.split("https://www.").pop();
+  url = url.replace("/", "");
   return psl.get(url);
 };
