@@ -1,24 +1,24 @@
 const whoiser = require("whoiser");
 const sslChecker = require("ssl-checker");
-const ipInfo = require("ip-info-finder");
+// const ipInfo = require("ip-info-finder");
+const ipdetails = require("node-ip-details");
 const { convertIso2Code } = require("convert-country-codes");
 
-module.exports = domainInfo = async url => {
-  var serverAddress = "";
-  var serverAddressISO = "";
+module.exports = domainInfo = async (url) => {
+  const ipInitialised = ipdetails.initialise({ ip: url });
   try {
-    ipInfo
-      .getIPInfo(url)
-      .then(data => {
-        // console.log("data:", data);
-        serverAddress = data.city
-          ? `${data.city}, ${convertIso2Code(data.countryCode).iso3}`
-          : "";
-        serverAddressISO = data.countryCode
-          ? convertIso2Code(data.countryCode).iso3
-          : "";
-      })
-      .catch(err => console.log("serverAddress Error", err));
+    const result = await ipInitialised.allInformation();
+    // console.log(result);
+    var serverAddress = `${result.countryName}, ${result.countryCode}`;
+    var serverAddressISO = result.countryCode;
+
+    serverAddress = result.city
+      ? `${result.city}, ${convertIso2Code(result.countryCode).iso3}`
+      : "";
+
+    serverAddressISO = result.countryCode
+      ? convertIso2Code(result.countryCode).iso3
+      : "";
     try {
       var domainWhois = await whoiser(url);
       // console.log("domainWhois:", domainWhois);
