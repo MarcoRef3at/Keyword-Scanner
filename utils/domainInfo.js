@@ -4,21 +4,21 @@ const sslChecker = require("ssl-checker");
 const ipdetails = require("node-ip-details");
 const { convertIso2Code } = require("convert-country-codes");
 
-module.exports = domainInfo = async url => {
-  const ipInitialised = ipdetails.initialise({ip: url} );
+module.exports = domainInfo = async (url) => {
+  const ipInitialised = ipdetails.initialise({ ip: url });
   try {
-    const result = await ipInitialised.allInformation()
+    const result = await ipInitialised.allInformation();
     // console.log(result);
     var serverAddress = `${result.countryName}, ${result.countryCode}`;
     var serverAddressISO = result.countryCode;
-    
+
     serverAddress = result.city
-          ? `${result.city}, ${convertIso2Code(result.countryCode).iso3}`
-          : "";
-    
+      ? `${result.city}, ${convertIso2Code(result.countryCode).iso3}`
+      : "";
+
     serverAddressISO = result.countryCode
-          ? convertIso2Code(result.countryCode).iso3
-          : "";
+      ? convertIso2Code(result.countryCode).iso3
+      : "";
     try {
       var domainWhois = await whoiser(url);
       // console.log("domainWhois:", domainWhois);

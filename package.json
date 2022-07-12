@@ -1,7 +1,7 @@
 {
   "name": "keyword-searcher",
   "version": "1.0.0",
-  "description": "A NodeJS Microservice to detect some words in any provided URL and get the domain's info of the website and detect the positive and negative words in this site using Bing Search API",
+  "description": "A NodeJS Microservice to detect some words in any provided URL and get the domain's info",
   "author": "Marco_Refaat@Hotmail.com",
   "license": "ISC",
   "main": "server.js",
