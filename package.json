@@ -4,10 +4,11 @@
   "description": "A NodeJS Microservice to detect some words in any provided URL and get the domain's info",
   "author": "Marco_Refaat@Hotmail.com",
   "license": "ISC",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "sls offline start",
+    "build": "sls deploy"
   },
   "dependencies": {
     "aws-serverless-express": "^3.4.0",
@@ -22,6 +23,7 @@
     "whoiser": "^1.13.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.9"
+    "nodemon": "^2.0.9",
+    "serverless-offline": "^8.8.1"
   }
 }
