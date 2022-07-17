@@ -10,7 +10,7 @@ module.exports = domainInfo = async (url) => {
       dns.resolve4(url, async (err, addresses) => {
         if (err) {
           console.err("dns error", err);
-          return;
+          throw `dns error ${err}`;
         }
         var ip = addresses[0];
         var result = await iplocate(ip);
@@ -81,7 +81,7 @@ module.exports = domainInfo = async (url) => {
           serverAddressISO,
           httpsValidation: https.valid,
         };
-
+        console.log("domain:", domain);
         resolve(domain);
       });
     } catch (error) {

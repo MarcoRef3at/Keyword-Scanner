@@ -4,6 +4,7 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
+  region: ap-southeast-2
 
 plugins:
   - serverless-offline
@@ -15,13 +16,11 @@ functions:
       - httpApi:
           path: /
           method: post
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
+  # you can overwrite defaults here
+  #  stage: dev
 # you can define service wide environment variables here
 #  environment:
-#    variable1: value1
+#    AZURE_SUBSCRIPTION_KEY: "f9a81dda603b4cab97e7641ae0231f71"
 
 #    Define function environment variables here
 #    environment:

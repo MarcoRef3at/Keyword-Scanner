@@ -34,7 +34,9 @@ exports.handler = asyncHandler(async (event) => {
     let domain = await domainInfo(url);
 
     let positiveKeywords = await wordSearch(url, body.positiveKeywords);
+    console.log("positiveKeywords:", positiveKeywords);
     let negativeKeywords = await wordSearch(url, body.negativeKeywords);
+    console.log("negativeKeywords:", negativeKeywords);
     let contactUs = await wordSearch(url, ["Contact Us"]);
     let privacyPolicy = await wordSearch(url, ["Privacy", "Policy"]);
     let shoppingCart = await wordSearch(url, ["Shopping Cart"]);
@@ -63,11 +65,13 @@ exports.handler = asyncHandler(async (event) => {
       };
       var response = {
         statusCode: 400,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(errorResponse),
       };
     } else {
       var response = {
         statusCode: 200,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(responseBody),
       };
     }
