@@ -5,6 +5,7 @@ const cleanUrl = require("./utils/cleanUrl");
 
 exports.handler = asyncHandler(async (event) => {
   let body = JSON.parse(event.body);
+  console.log('body:', body)
   let url = body.url;
 
   if (!url) {
@@ -56,6 +57,8 @@ exports.handler = asyncHandler(async (event) => {
       negativeKeywords,
     };
     if (isInvalidBingSearch || isInvalidDomain) {
+      console.log('isInvalidBingSearch:', isInvalidBingSearch)
+      console.log('isInvalidDomain:', isInvalidDomain)
       let errorResponse = {
         success: false,
         error: {
@@ -75,7 +78,7 @@ exports.handler = asyncHandler(async (event) => {
         body: JSON.stringify(responseBody),
       };
     }
-
+    console.log('response:', response)
     return response;
   }
 });
