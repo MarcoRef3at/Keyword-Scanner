@@ -56,7 +56,7 @@ exports.handler = asyncHandler(async (event) => {
       positiveKeywords,
       negativeKeywords,
     };
-    if (isInvalidBingSearch || isInvalidDomain) {
+    if (isInvalidDomain) {
       console.log('isInvalidBingSearch:', isInvalidBingSearch)
       console.log('isInvalidDomain:', isInvalidDomain)
       let errorResponse = {
